@@ -145,18 +145,19 @@ with tab2:
         st.dataframe(farmer_details, hide_index=True)  # hide index
 
         # Moisture line chart
-        st.markdown("### 📈 Moisture Variation Over Time")
+        st.markdown("### 📈 SOil Moisture Variation Over Time")
         subset = filtered_farmer[filtered_farmer["Farmer Name"] == farmer]
 
         fig, ax = plt.subplots()
         ax.plot(subset["CreateDate"], subset["CalculatedValue"], marker="o", linestyle="-")
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Moisture (%)")
-        ax.set_title(f"Moisture % over Time - {farmer}")
+        ax.set_xlabel(" ")
+        ax.set_ylabel("Soil Moisture (%)")
+        ax.set_title(f"Soil Moisture % over Time - {farmer}")
         ax.tick_params(axis='x', rotation=0)
         ax.grid(True, linestyle='--', alpha=0.7)
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
 
