@@ -38,7 +38,7 @@ selected_villages = st.sidebar.multiselect(
 
 # Sidebar footer - developer name
 st.sidebar.markdown("---")
-st.sidebar.markdown("👨‍💻 Developed by **Naveenkumar S**")
+st.sidebar.markdown("Developed by **Naveenkumar S**")
 
 # -----------------------------
 # Tabs
@@ -157,3 +157,4 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
