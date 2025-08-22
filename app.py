@@ -25,20 +25,25 @@ st.set_page_config(page_title="Jubilant Sugarcane Project Dashboard", layout="wi
 
 st.title("🌾 Jubilant Sugarcane Project Dashboard")
 
-# Tabs
-tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
-
+# -----------------------------
+# Sidebar filters
+# -----------------------------
 villages = summary_df["Village Name"].dropna().unique().tolist()
 selected_villages = st.sidebar.multiselect(
     "Select Village(s)", 
     options=villages, 
-    default=[]  # <-- nothing selected by default
+    default=[],  # nothing selected by default
+    placeholder="Select villages"
 )
 
-
-
+# Sidebar footer - developer name
 st.sidebar.markdown("---")
-st.sidebar.markdown("👨‍💻 Developed by **Naveenkumar**")
+st.sidebar.markdown("👨‍💻 Developed by **Naveenkumar S**")
+
+# -----------------------------
+# Tabs
+# -----------------------------
+tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
 
 # -----------------------------
 # Tab 1 - Overall Summary
@@ -46,11 +51,7 @@ st.sidebar.markdown("👨‍💻 Developed by **Naveenkumar**")
 with tab1:
     st.subheader("📊 Overall Summary - Kharif 2024")
 
-    # Village filter
-        # Sidebar filters (default = nothing selected)
-   
-    
-    # If no selection, show all villages
+    # Apply village filter
     if selected_villages:
         filtered_summary = summary_df[summary_df["Village Name"].isin(selected_villages)]
     else:
@@ -67,11 +68,9 @@ with tab1:
     kpi2.metric("Total Farmers", total_farmers)
     kpi3.metric("Avg No. of Irrigation", f"{avg_irrigation:.2f}")
     kpi4.metric("Avg Yield (qtl/acre)", f"{avg_yield:.2f}")
-    
 
     # Charts
     st.markdown("### 🌍 Village-wise Charts")
-
     col1, col2 = st.columns(2)
 
     with col1:
@@ -88,7 +87,7 @@ with tab1:
         ax.bar_label(ax.containers[0])
         st.pyplot(fig)
 
-    # Bell shape curves
+    # Distribution curves
     st.markdown("### 🔔 Distribution Curves")
     fig, ax = plt.subplots()
     sns.kdeplot(filtered_summary["Irrigated Water (lakh L/acre)"], fill=True, label="Irrigated Water", ax=ax)
@@ -97,7 +96,7 @@ with tab1:
     ax.legend()
     st.pyplot(fig)
 
-    # Village-wise avg table
+    # Village-wise average table
     st.markdown("### 📋 Village-wise Averages")
     village_table = filtered_summary.groupby("Village Name").agg({
         "No of Irrigation": "mean",
@@ -106,41 +105,46 @@ with tab1:
         "Rain Water (lakh L/acre)": "mean",
         "Yield (quintal/acre)": "mean"
     }).reset_index()
-
-    # Round numeric columns only (safe formatting)
     numeric_cols = village_table.select_dtypes(include=[np.number]).columns
     village_table[numeric_cols] = village_table[numeric_cols].round(2)
-
     st.dataframe(village_table)
 
-# -----------------------------
-# Tab 2 - Farmer Summary
-# -----------------------------
 # -----------------------------
 # Tab 2 - Farmer Summary
 # -----------------------------
 with tab2:
     st.subheader("👩‍🌾 Farmer Summary")
 
-    # Apply village filter from Tab 1 to farmer_df
+    # Apply village filter to farmer_df
     if selected_villages:
-        base_farmer_df = base_farmer_df[base_farmer_df["Village Name"].isin(selected_villages)]
+        filtered_farmer = farmer_df[farmer_df["Village Name"].isin(selected_villages)].copy()
     else:
-        base_farmer_df = base_farmer_df.copy()
+        filtered_farmer = farmer_df.copy()
+
+    # Farmer filter
+    farmers = filtered_farmer["Farmer Name"].unique().tolist()
+    selected_farmers = st.multiselect(
+        "Select Farmer(s)",
+        options=farmers,
+        default=[],  # empty = show all
+        placeholder="Select farmers"
+    )
+
+    if selected_farmers:
+        filtered_farmer = filtered_farmer[filtered_farmer["Farmer Name"].isin(selected_farmers)]
 
     # Loop farmer-wise
     for farmer in filtered_farmer["Farmer Name"].unique():
         st.markdown(f"## 👨‍🌾 {farmer}")
 
-        # Farmer details (hide index completely)
+        # Farmer details table
         farmer_details = filtered_farmer[filtered_farmer["Farmer Name"] == farmer][
             ["Farmer Name", "Father Name", "Mobile Number", "Village Name", "Device ID"]
         ].drop_duplicates()
-
         st.markdown("### 📋 Farmer Details")
-        st.dataframe(farmer_details, hide_index=True)  # ✅ no 0 index
+        st.dataframe(farmer_details, hide_index=True)  # hide index
 
-        # Moisture line chart (only that farmer)
+        # Moisture line chart
         st.markdown("### 📈 Moisture Variation Over Time")
         subset = filtered_farmer[filtered_farmer["Farmer Name"] == farmer]
 
@@ -149,14 +153,7 @@ with tab2:
         ax.set_xlabel("Date")
         ax.set_ylabel("Moisture (%)")
         ax.set_title(f"Moisture % over Time - {farmer}")
-        ax.tick_params(axis='x', rotation=0)
+        ax.tick_params(axis='x', rotation=45)
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
-
-
-
-
-
-
-
