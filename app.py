@@ -109,36 +109,43 @@ with tab1:
 # -----------------------------
 # Tab 2 - Farmer Summary
 # -----------------------------
+# -----------------------------
+# Tab 2 - Farmer Summary
+# -----------------------------
 with tab2:
     st.subheader("👩‍🌾 Farmer Summary")
 
     # Farmer filter
     farmers = farmer_df["Farmer Name"].unique().tolist()
     selected_farmers = st.multiselect(
-        "Select Farmer(s)", farmers, default=farmers, placeholder="Select farmers"
+        "Select Farmer(s)", 
+        farmers, 
+        default=[],   # default = empty
+        placeholder="Select farmers"
     )
 
+    # If no farmer is selected → show all
     if selected_farmers:
         filtered_farmer = farmer_df[farmer_df["Farmer Name"].isin(selected_farmers)]
     else:
         filtered_farmer = farmer_df.copy()
 
-    # Farmer table
-    st.markdown("### 📋 Farmer Details")
-    farmer_details = filtered_farmer[
-        ["Farmer Name", "Father Name", "Mobile Number", "Village Name", "Device ID"]
-    ].drop_duplicates()
-    st.dataframe(farmer_details)
-
-    # Moisture line chart
-    # Moisture line charts per farmer
-    st.markdown("### 📈 Moisture Variation Over Time (Farmer-wise)")
-    
+    # Loop farmer-wise
     for farmer in filtered_farmer["Farmer Name"].unique():
+        st.markdown(f"## 👨‍🌾 {farmer}")
+
+        # Farmer details (only that farmer)
+        farmer_details = filtered_farmer[filtered_farmer["Farmer Name"] == farmer][
+            ["Farmer Name", "Father Name", "Mobile Number", "Village Name", "Device ID"]
+        ].drop_duplicates()
+
+        st.markdown("### 📋 Farmer Details")
+        st.dataframe(farmer_details)
+
+        # Moisture line chart (only that farmer)
+        st.markdown("### 📈 Moisture Variation Over Time")
         subset = filtered_farmer[filtered_farmer["Farmer Name"] == farmer]
-    
-        st.markdown(f"#### 👨‍🌾 {farmer}")
-    
+
         fig, ax = plt.subplots()
         ax.plot(subset["CreateDate"], subset["CalculatedValue"], marker="o", linestyle="-")
         ax.set_xlabel("Date")
@@ -146,6 +153,8 @@ with tab2:
         ax.set_title(f"Moisture % over Time - {farmer}")
         ax.tick_params(axis='x', rotation=45)
         st.pyplot(fig)
+
+        st.markdown("---")  # separator line
 
 
 
