@@ -131,16 +131,22 @@ with tab2:
     st.dataframe(farmer_details)
 
     # Moisture line chart
-    st.markdown("### 📈 Moisture Variation Over Time")
-    fig, ax = plt.subplots()
+    # Moisture line charts per farmer
+    st.markdown("### 📈 Moisture Variation Over Time (Farmer-wise)")
+    
     for farmer in filtered_farmer["Farmer Name"].unique():
         subset = filtered_farmer[filtered_farmer["Farmer Name"] == farmer]
-        ax.plot(subset["CreateDate"], subset["CalculatedValue"], marker="o", label=farmer)
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Moisture (%)")
-    ax.set_title("Moisture % over Time")
-    ax.legend()
-    st.pyplot(fig)
+    
+        st.markdown(f"#### 👨‍🌾 {farmer}")
+    
+        fig, ax = plt.subplots()
+        ax.plot(subset["CreateDate"], subset["CalculatedValue"], marker="o", linestyle="-")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Moisture (%)")
+        ax.set_title(f"Moisture % over Time - {farmer}")
+        ax.tick_params(axis='x', rotation=45)
+        st.pyplot(fig)
+
 
 
 
