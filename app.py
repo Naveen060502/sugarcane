@@ -34,7 +34,7 @@ tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
 with tab1:
     st.subheader("📊 Overall Summary - Kharif 2024")
 
-    # Village filter (adjusting column name)
+    # Village filter
     villages = summary_df["Village Name"].unique().tolist()
     selected_villages = st.multiselect(
         "Select Village(s)", villages, default=villages, placeholder="Select villages"
@@ -95,7 +95,12 @@ with tab1:
         "Rain Water (lakh L/acre)": "mean",
         "Yield (quintal/acre)": "mean"
     }).reset_index()
-    st.dataframe(village_table.style.format("{:.2f}"))
+
+    # Round numeric columns only (safe formatting)
+    numeric_cols = village_table.select_dtypes(include=[np.number]).columns
+    village_table[numeric_cols] = village_table[numeric_cols].round(2)
+
+    st.dataframe(village_table)
 
 # -----------------------------
 # Tab 2 - Farmer Summary
@@ -116,7 +121,9 @@ with tab2:
 
     # Farmer table
     st.markdown("### 📋 Farmer Details")
-    farmer_details = filtered_farmer[["Farmer Name", "Father Name", "Mobile Number", "Village Name", "Device ID"]].drop_duplicates()
+    farmer_details = filtered_farmer[
+        ["Farmer Name", "Father Name", "Mobile Number", "Village Name", "Device ID"]
+    ].drop_duplicates()
     st.dataframe(farmer_details)
 
     # Irrigation count per farmer
