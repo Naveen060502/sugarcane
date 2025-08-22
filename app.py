@@ -36,7 +36,7 @@ with tab1:
 
     # Village filter
         # Sidebar filters (default = nothing selected)
-    villages = df["Village Name"].dropna().unique().tolist()
+    villages = summary_df["Village Name"].dropna().unique().tolist()
     selected_villages = st.sidebar.multiselect(
         "Select Village(s)", 
         options=villages, 
@@ -45,9 +45,9 @@ with tab1:
     
     # If no selection, show all villages
     if selected_villages:
-        df_filtered = df[df["Village Name"].isin(selected_villages)]
+        df_filtered = summary_df[summary_df["Village Name"].isin(selected_villages)]
     else:
-        df_filtered = df.copy()
+        df_filtered = summary_df.copy()
 
     # KPIs
     total_devices = filtered_summary["Device ID"].nunique()
@@ -141,5 +141,6 @@ with tab2:
     ax.set_title("Moisture % over Time")
     ax.legend()
     st.pyplot(fig)
+
 
 
