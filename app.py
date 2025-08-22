@@ -28,7 +28,7 @@ st.title("🌾 Jubilant Sugarcane Project Dashboard")
 # Tabs
 tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
 
- villages = summary_df["Village Name"].dropna().unique().tolist()
+villages = summary_df["Village Name"].dropna().unique().tolist()
     selected_villages = st.sidebar.multiselect(
         "Select Village(s)", 
         options=villages, 
@@ -128,13 +128,6 @@ with tab2:
     else:
         base_farmer_df = farmer_df.copy()
 
-   
-    # If no farmer is selected → show all
-    if selected_farmers:
-        filtered_farmer = base_farmer_df[base_farmer_df["Farmer Name"].isin(selected_farmers)]
-    else:
-        filtered_farmer = base_farmer_df.copy()
-
     # Loop farmer-wise
     for farmer in filtered_farmer["Farmer Name"].unique():
         st.markdown(f"## 👨‍🌾 {farmer}")
@@ -160,6 +153,7 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
 
 
