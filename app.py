@@ -29,11 +29,11 @@ st.title("🌾 Jubilant Sugarcane Project Dashboard")
 tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
 
 villages = summary_df["Village Name"].dropna().unique().tolist()
-    selected_villages = st.sidebar.multiselect(
-        "Select Village(s)", 
-        options=villages, 
-        default=[]  # <-- nothing selected by default
-    )
+selected_villages = st.sidebar.multiselect(
+    "Select Village(s)", 
+    options=villages, 
+    default=[]  # <-- nothing selected by default
+)
 
 
 
@@ -153,6 +153,7 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
 
 
