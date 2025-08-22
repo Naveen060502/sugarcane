@@ -126,15 +126,6 @@ with tab2:
     ].drop_duplicates()
     st.dataframe(farmer_details)
 
-    # Irrigation count per farmer
-    st.markdown("### 📊 Irrigation Count per Farmer")
-    fig, ax = plt.subplots()
-    irrigation_counts = filtered_farmer.groupby("Farmer Name")["No of Irrigation"].mean().reset_index()
-    sns.barplot(data=irrigation_counts, x="Farmer Name", y="No of Irrigation", ax=ax)
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
-    ax.bar_label(ax.containers[0])
-    st.pyplot(fig)
-
     # Moisture line chart
     st.markdown("### 📈 Moisture Variation Over Time")
     fig, ax = plt.subplots()
@@ -146,3 +137,4 @@ with tab2:
     ax.set_title("Moisture % over Time")
     ax.legend()
     st.pyplot(fig)
+
