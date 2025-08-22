@@ -124,9 +124,9 @@ with tab2:
 
     # Apply village filter from Tab 1 to farmer_df
     if selected_villages:
-        base_farmer_df = farmer_df[base_farmer_df["Village Name"].isin(selected_villages)]
+        base_farmer_df = base_farmer_df[base_farmer_df["Village Name"].isin(selected_villages)]
     else:
-        base_farmer_df = farmer_df.copy()
+        base_farmer_df = base_farmer_df.copy()
 
     # Loop farmer-wise
     for farmer in filtered_farmer["Farmer Name"].unique():
@@ -153,6 +153,7 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
 
 
