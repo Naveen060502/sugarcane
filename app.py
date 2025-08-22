@@ -60,7 +60,7 @@ with tab1:
     kpi2.metric("Total Farmers", total_farmers)
     kpi3.metric("Avg No. of Irrigation", f"{avg_irrigation:.2f}")
     kpi4.metric("Avg Yield (qtl/acre)", f"{avg_yield:.2f}")
-    kpi5.metric("Season", "Kharif 2024")
+    
 
     # Charts
     st.markdown("### 🌍 Village-wise Charts")
@@ -161,3 +161,4 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
