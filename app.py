@@ -153,8 +153,10 @@ with tab2:
         ax.set_xlabel("Date")
         ax.set_ylabel("Moisture (%)")
         ax.set_title(f"Moisture % over Time - {farmer}")
-        ax.tick_params(axis='x', rotation=45)
+        ax.tick_params(axis='x', rotation=0)
+        ax.grid(True, linestyle='--', alpha=0.7)
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
