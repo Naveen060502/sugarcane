@@ -9,11 +9,11 @@ import seaborn as sns
 # -----------------------------
 @st.cache_data
 def load_summary():
-    return pd.read_excel("summary.xlsx", sheet_name="summary")
+    return pd.read_excel("summary1.xlsx", sheet_name="summary")
 
 @st.cache_data
 def load_farmer():
-    return pd.read_excel("summary.xlsx", sheet_name="raw")
+    return pd.read_excel("summary1.xlsx", sheet_name="raw")
 
 summary_df = load_summary()
 farmer_df = load_farmer()
@@ -141,6 +141,7 @@ with tab2:
     ax.set_title("Moisture % over Time")
     ax.legend()
     st.pyplot(fig)
+
 
 
 
