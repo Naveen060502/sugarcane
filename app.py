@@ -140,7 +140,7 @@ with tab2:
         ].drop_duplicates()
 
         st.markdown("### 📋 Farmer Details")
-        st.dataframe(farmer_details)
+        st.dataframe(farmer_details.reset_index(drop=True))
 
         # Moisture line chart (only that farmer)
         st.markdown("### 📈 Moisture Variation Over Time")
@@ -155,6 +155,7 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
 
 
