@@ -27,6 +27,8 @@ st.title("🌾 Jubilant Sugarcane Project Dashboard")
 
 # Tabs
 tab1, tab2 = st.tabs(["📊 Overall Summary", "👩‍🌾 Farmer Summary"])
+st.sidebar.markdown("---")
+st.sidebar.markdown("👨‍💻 Developed by **Naveenkumar S**")
 
 # -----------------------------
 # Tab 1 - Overall Summary
@@ -161,4 +163,5 @@ with tab2:
         st.pyplot(fig)
 
         st.markdown("---")  # separator line
+
 
