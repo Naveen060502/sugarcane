@@ -45,9 +45,9 @@ with tab1:
     
     # If no selection, show all villages
     if selected_villages:
-        df_filtered = summary_df[summary_df["Village Name"].isin(selected_villages)]
+        filtered_summary = summary_df[summary_df["Village Name"].isin(selected_villages)]
     else:
-        df_filtered = summary_df.copy()
+        filtered_summary = summary_df.copy()
 
     # KPIs
     total_devices = filtered_summary["Device ID"].nunique()
@@ -141,6 +141,7 @@ with tab2:
     ax.set_title("Moisture % over Time")
     ax.legend()
     st.pyplot(fig)
+
 
 
 
